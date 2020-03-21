@@ -1,0 +1,1 @@
+openssl smime -sign -signer /etc/letsencrypt/live/tanghengzhi.com/cert.pem -inkey /etc/letsencrypt/live/tanghengzhi.com/privkey.pem -certfile /etc/letsencrypt/live/tanghengzhi.com/fullchain.pem -nodetach -outform der -in device.mobileconfig -out device-signed.mobileconfig
