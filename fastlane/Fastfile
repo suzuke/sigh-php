@@ -1,0 +1,43 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :custom_lane do
+    require 'spaceship'
+    # add actions here: https://docs.fastlane.tools/actions
+    Spaceship::Portal.login("gdszstr@163.com", "Wth123456")
+    # Register a new device
+    Spaceship::Portal.device.create!(name: "iPhone", udid: "00008020-000C28212630003A")
+
+    # Find a specific app based on the bundle identifier
+    app = Spaceship::Portal.app.find("com.freemypay.*")
+
+    # Create a new app
+    # app = Spaceship::Portal.app.create!(bundle_id: "com.freemypay.*", name: "商服宝")
+
+    # Use an existing certificate
+    cert = Spaceship::Portal.certificate.all.first
+
+    # Create a new provisioning profile
+    profile = Spaceship::Portal.provisioning_profile.app_store.create!(bundle_id: app.bundle_id,
+                                                         certificate: cert)
+
+    # Store the new profile on the filesystem
+    File.write("NewProfile.mobileprovision", profile.download)
+  end
+end
